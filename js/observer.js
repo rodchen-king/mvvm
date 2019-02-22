@@ -1,5 +1,5 @@
-function Observer(data) {
-    this.data = data;
+function Observer(data) { // 为data属性进行数据劫持，添加get & set方法，并以此方式调用
+    this.data = data; //赋值this
     this.walk(data);
 }
 
@@ -15,14 +15,14 @@ Observer.prototype = {
     },
 
     defineReactive: function(data, key, val) {
-        var dep = new Dep();
+        var dep = new Dep();  // 为每一个data属性创建订阅者数组
         var childObj = observe(val);
 
         Object.defineProperty(data, key, {
             enumerable: true, // 可枚举
             configurable: false, // 不能再define
             get: function() {
-                if (Dep.target) {
+                if (Dep.target) { // 由于需要在闭包内添加watcher，所以通过Dep定义一个全局target属性，暂存watcher, 添加完移除
                     dep.depend();
                 }
                 return val;

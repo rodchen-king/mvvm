@@ -7,7 +7,7 @@ function Watcher(vm, expOrFn, cb) {
     if (typeof expOrFn === 'function') {
         this.getter = expOrFn;
     } else {
-        this.getter = this.parseGetter(expOrFn.trim());
+        this.getter = this.parseGetter(expOrFn.trim()); // 返回一个函数，参数obj，为了传入data直接获取对应值
     }
 
     this.value = this.get();
@@ -53,7 +53,7 @@ Watcher.prototype = {
     },
 
     parseGetter: function(exp) {
-        if (/[^\w.$]/.test(exp)) return; 
+        if (/[^\w.$]/.test(exp)) return; // 判断数据调用是否正确，如果不是单词符号（a-z、A-Z、0-9，以及下划线。）和‘.’或者‘$’，则返回
 
         var exps = exp.split('.');
 
